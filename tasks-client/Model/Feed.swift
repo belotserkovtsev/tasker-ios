@@ -24,5 +24,7 @@ struct Feed {
         var id: Int
         var title: String
         var description: String
+        var task: String
+        var name: String
     }
 }

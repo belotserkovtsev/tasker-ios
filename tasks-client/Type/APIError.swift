@@ -7,7 +7,11 @@
 
 import Foundation
 
-struct APIError: Error, Codable {
+struct APIError: Codable {
     var id: Int
     var message: String
+}
+
+enum Result {
+    case success, failure(APIError)
 }

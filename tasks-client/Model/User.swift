@@ -8,17 +8,19 @@
 import Foundation
 
 struct User {
-    private(set) var id: Int? = 1
-    private(set) var username: String? = "bogdan"
-//    private(set) var lastname: String?
-//    private(set) var firstname: String?
+    private(set) var id: Int?
+    private(set) var username: String?
+    private(set) var lastname: String?
+    private(set) var firstname: String?
     
     
     private(set) var loggedIn = false
     
-    mutating func logUserIn(username: String, id: Int) {
+    mutating func logUserIn(username: String, id: Int, firstname: String, lastname: String) {
         self.id = id
         self.username = username
         self.loggedIn = true
+        self.firstname = firstname
+        self.lastname = lastname
     }
 }

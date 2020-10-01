@@ -23,73 +23,51 @@ class UserAuth: ObservableObject {
         userData.username
     }
     
+    var firstname: String? {
+        userData.firstname
+    }
+    
+    var lastname: String? {
+        userData.lastname
+    }
+    
     //MARK: Intents
     
-    func login(user username: String) {
-        guard username.count > 0 else {
-            return
-        }
-        let url: URL = URL(string: "http://192.168.1.222:8888/api/checkUser?username=\(username)")!
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.timeoutInterval = 20
-        
-        let session = URLSession.shared
-        session.dataTask(with: request) { (data, response, error) in
-            if let data = data {
-                do {
-                    let resp: LoginData = try JSONDecoder().decode(LoginData.self, from: data)
-                    if let userData = resp.user {
-                        DispatchQueue.main.async {
-                            self.userData.logUserIn(username: userData.username, id: userData.id)
+    func login(user username: String, completion: @escaping (Result) -> Void) {
+        if let url = URL(string: "http://192.168.1.222:8888/api/checkUser?username=\(username)") {
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            request.timeoutInterval = 2
+            
+            let session = URLSession.shared
+            session.dataTask(with: request) { (data, response, error) in
+                if let rawData = data {
+                    do {
+                        let resp: LoginData = try JSONDecoder().decode(LoginData.self, from: rawData)
+                        if let userData = resp.user {
+                            completion(.success)
+                            DispatchQueue.main.async {
+                                self.userData.logUserIn(
+                                    username: userData.username,
+                                    id: userData.id,
+                                    firstname: userData.firstname,
+                                    lastname: userData.lastname
+                                )
+                            }
+                        } else if let err = resp.error {
+                            completion(.failure(err))
                         }
+                    } catch {
+                        completion(.failure(APIError(id: 6, message: "Couldn't decode")))
                     }
-//                    print(test)
-                } catch {
-                    print(error)
+                } else {
+                    completion(.failure(APIError(id: 5, message: "Server failure")))
                 }
             }
+            .resume()
+        } else {
+            completion(.failure(APIError(id: 3, message: "incorrect request")))
         }
-        .resume()
-    }
-    
-    struct LoginData: Codable {
-        var error: APIError?
-        var user: UserData?
-    }
-    
-    struct UserData: Codable {
-        var id: Int
-        var username: String
     }
     
 }
-
-
-
-//enum loginError: Codabble {
-//    case invalidRequest(Int)
-//}
-//
-//extension loginError {
-//    enum Key: CodingKey {
-//        case rawValue
-//        case associatedValue
-//    }
-//
-//    init(from decoder: Decoder) throws {
-//        let container = try decoder.container(keyedBy: Key.self)
-//        let rawValue = try container.decode(Int.self, forKey: .rawValue)
-//        switch rawValue {
-//        case 0:
-//            let id = try container.decode(Int.self, forKey: .associatedValue)
-//            self = .invalidRequest(id)
-//        default:
-//            throw
-//        }
-//    }
-//
-//    func encode(to encoder: Encoder) throws {
-//
-//    }
-//}

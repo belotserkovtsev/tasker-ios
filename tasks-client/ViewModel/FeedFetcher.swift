@@ -55,9 +55,4 @@ class FeedFetcher: ObservableObject {
         }
         .resume()
     }
-    
-    struct FeedData: Codable {
-        var error: APIError?
-        var tasks: [Feed.Task]?
-    }
 }
