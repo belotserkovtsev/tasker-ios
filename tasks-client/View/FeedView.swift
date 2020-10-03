@@ -69,7 +69,7 @@ struct GroupTasksView: View {
                 ScrollView {
                     VStack(spacing: 16) {
                         ForEach(feed.groupTasks) { task in
-                            CardVew(title: task.title, description: task.description, name: task.name, task: task.task)
+                            CardVew(title: task.title, description: task.description, name: task.name, task: task.task, done: task.done)
                         }
                     }
                 }
@@ -79,7 +79,7 @@ struct GroupTasksView: View {
         }
         .onAppear {
             if feed.groupTasks.count == 0 {
-                feed.fetch(for: user.id!, .group)
+                feed.fetchFeed(for: user.id!, .group)
             }
         }
         .onReceive(feed.$feedData) { feedData in
@@ -104,7 +104,7 @@ struct PersonalTasksView: View {
                 ScrollView {
                     VStack(spacing: 16) {
                         ForEach(feed.personalTasks) { task in
-                            CardVew(title: task.title, description: task.description, name: task.name, task: task.task)
+                            CardVew(title: task.title, description: task.description, name: task.name, task: task.task, done: task.done)
                         }
                     }
                 }
@@ -114,7 +114,7 @@ struct PersonalTasksView: View {
         }
         .onAppear {
             if feed.personalTasks.count == 0 {
-                feed.fetch(for: user.id!, .personal)
+                feed.fetchFeed(for: user.id!, .personal)
             }
         }
         .onReceive(feed.$feedData) { feedData in
@@ -190,6 +190,7 @@ struct CardVew: View {
     var description: String
     var name: String
     var task: String
+    var done: Bool
     
     let tapVibration = UIImpactFeedbackGenerator(style: .light)
     @State var details = false
@@ -200,11 +201,19 @@ struct CardVew: View {
                 .foregroundColor(Color("cardGray"))
                 .opacity(0.24)
             VStack(alignment: .leading, spacing: .zero) {
-                Text(title)
-                    .font(.system(size: 22, weight: .bold))
-                    .fixedSize(horizontal: false, vertical: true)
-                    .frame(width: 244, alignment: .leading)
-                    .padding(.bottom, 4)
+                HStack(alignment: .top) {
+                    Text(title)
+                        .font(.system(size: 22, weight: .bold))
+                        .fixedSize(horizontal: false, vertical: true)
+                        .frame(width: 244, alignment: .leading)
+                        .padding(.bottom, 4)
+                    if done {
+                        Spacer()
+                        Image("done")
+                            .opacity(0.8)
+                    }
+                }
+                
                 Text(description)
                     .opacity(0.8)
                     .fixedSize(horizontal: false, vertical: true)
@@ -223,7 +232,7 @@ struct CardVew: View {
                         .frame(width: 211, alignment: .trailing)
                 }
             }
-            .padding([.leading, .trailing], 12)
+            .padding([.leading, .trailing], 20)
             .padding(.bottom, 15)
             .padding(.top, 24)
             
@@ -353,12 +362,7 @@ struct FeedView_Previews: PreviewProvider {
     
     static var previews: some View {
         ScrollView {
-            CardVew(title: "Работа над ошибками", description: "Принести до следующей субботы", name: "Методы и срдества программного обеспеченияМетоды и срдества программного обеспечения", task: "test")
-                .contextMenu(/*@START_MENU_TOKEN@*/ContextMenu(menuItems: {
-                    Text("Menu Item 1")
-                    Text("Menu Item 2")
-                    Text("Menu Item 3")
-                })/*@END_MENU_TOKEN@*/)
+            CardVew(title: "Работа над ошибками", description: "Принести до следующей субботы", name: "Методы и срдества программного обеспеченияМетоды и срдества программного обеспечения", task: "test", done: true)
         }
             .preferredColorScheme(.dark)
     }

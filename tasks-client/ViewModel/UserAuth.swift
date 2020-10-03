@@ -36,7 +36,7 @@ class UserAuth: ObservableObject {
     func login(user username: String, completion: @escaping (Result) -> Void) {
         if let url = URL(string: "http://192.168.1.222:8888/api/checkUser?username=\(username)") {
             var request = URLRequest(url: url)
-            request.httpMethod = "POST"
+            request.httpMethod = "GET"
             request.timeoutInterval = 2
             
             let session = URLSession.shared

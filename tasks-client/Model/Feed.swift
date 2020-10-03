@@ -26,5 +26,6 @@ struct Feed {
         var description: String
         var task: String
         var name: String
+        var done: Bool
     }
 }
