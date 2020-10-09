@@ -18,14 +18,6 @@ struct FeedView: View {
         VStack(spacing: .zero) {
             FeedHeaderView(firstname: user.firstname!, lastname: user.lastname!)
             
-            HStack {
-                Text("Мои задания")
-                    .font(.system(size: 34, weight: .bold))
-                    .padding(.leading, 12)
-                    .padding(.bottom, 16)
-                Spacer()
-            }
-            
             FeedSelectorView(selection: $display)
             
             Group {
@@ -66,21 +58,13 @@ struct GroupTasksView: View {
     var body: some View {
         VStack(spacing: .zero) {
             if showCards {
-                ScrollView {
-                    VStack(spacing: 16) {
-                        ForEach(feed.groupTasks) { task in
-                            CardVew(title: task.title, description: task.description, name: task.name, task: task.task, done: task.done)
-                        }
-                    }
-                }
+                cardsScrollable
                 .transition(.move(edge: .leading))
             }
             Spacer()
         }
         .onAppear {
-            if feed.groupTasks.count == 0 {
-                feed.fetchFeed(for: user.id!, .group)
-            }
+			feed.updateFeed(for: user.id!, .group)
         }
         .onReceive(feed.$feedData) { feedData in
             if feedData.groupTasks.count > 0 {
@@ -90,6 +74,22 @@ struct GroupTasksView: View {
             }
         }
     }
+	
+	private var cardsScrollable: some View {
+		ScrollView {
+			VStack(spacing: 16) {
+				ForEach(feed.groupTasks) { task in
+					CardVew(
+						title: task.title,
+						description: task.description,
+						name: task.name,
+						task: task.task,
+						done: task.done
+					)
+				}
+			}
+		}
+	}
 }
 
 struct PersonalTasksView: View {
@@ -101,21 +101,13 @@ struct PersonalTasksView: View {
     var body: some View {
         VStack(spacing: .zero) {
             if showCards {
-                ScrollView {
-                    VStack(spacing: 16) {
-                        ForEach(feed.personalTasks) { task in
-                            CardVew(title: task.title, description: task.description, name: task.name, task: task.task, done: task.done)
-                        }
-                    }
-                }
+                cardsScrollable
                 .transition(.move(edge: .trailing))
             }
             Spacer()
         }
         .onAppear {
-            if feed.personalTasks.count == 0 {
-                feed.fetchFeed(for: user.id!, .personal)
-            }
+			feed.updateFeed(for: user.id!, .personal)
         }
         .onReceive(feed.$feedData) { feedData in
             if feedData.personalTasks.count > 0 {
@@ -125,6 +117,22 @@ struct PersonalTasksView: View {
             }
         }
     }
+	
+	private var cardsScrollable: some View {
+		ScrollView {
+			VStack(spacing: 16) {
+				ForEach(feed.personalTasks) { task in
+					CardVew(
+						title: task.title,
+						description: task.description,
+						name: task.name,
+						task: task.task,
+						done: task.done
+					)
+				}
+			}
+		}
+	}
 }
 
 struct FeedHeaderView: View {
@@ -132,26 +140,26 @@ struct FeedHeaderView: View {
     var lastname: String
     
     var body: some View {
-        HStack(spacing: 19) {
-            ZStack {
-                Circle()
-                    .foregroundColor(Color("loginButtonPink"))
-                Text("B")
-                    .font(.system(size: 22, weight: .bold))
-            }
-            .frame(width: 42, height: 42)
-            
-            VStack(alignment: .leading) {
-                Text("\(firstname) \(lastname)")
-                Text("Исполнитель")
-                    .foregroundColor(Color("captionGray"))
-            }
-            .font(.system(size: 16))
-            Spacer()
-        }
-        .padding(.leading, 12)
-        .padding(.top, 16)
-        .padding(.bottom, 30)
+		HStack(spacing: 19) {
+			ZStack {
+				Circle()
+					.foregroundColor(Color("loginButtonPink"))
+				Text("B")
+					.font(.system(size: 22, weight: .bold))
+			}
+			.frame(width: 42, height: 42)
+			
+			VStack(alignment: .leading) {
+				Text("\(firstname) \(lastname)")
+				Text("Исполнитель")
+					.foregroundColor(Color("captionGray"))
+			}
+			.font(.system(size: 16))
+			Spacer()
+		}
+		.padding(.leading, 12)
+		.padding(.top, 16)
+		.padding(.bottom, 30)
     }
 }
 
@@ -159,19 +167,28 @@ struct FeedSelectorView: View {
     @Binding var selection: FeedType
     
     var body: some View {
-        HStack(spacing: 20) {
-            Text("Групповые")
-                .onTapGesture {
-                    selection = .group
-                }
-            Text("Личные")
-                .onTapGesture {
-                    selection = .personal
-                }
-            Spacer()
-        }
-        .padding(.leading, 12)
-        .padding(.bottom, 8)
+		VStack(spacing: .zero) {
+			HStack {
+				Text("Мои задания")
+					.font(.system(size: 34, weight: .bold))
+					.padding(.leading, 12)
+					.padding(.bottom, 16)
+				Spacer()
+			}
+			HStack(spacing: 20) {
+				Text("Групповые")
+					.onTapGesture {
+						selection = .group
+					}
+				Text("Личные")
+					.onTapGesture {
+						selection = .personal
+					}
+				Spacer()
+			}
+			.padding(.leading, 12)
+			.padding(.bottom, 8)
+		}
         
         HStack {
             RoundedRectangle(cornerRadius: 5)
@@ -194,70 +211,80 @@ struct CardVew: View {
     
     let tapVibration = UIImpactFeedbackGenerator(style: .light)
     @State var details = false
-    
-    var body: some View {
-        ZStack(alignment: .leading) {
-            RoundedRectangle(cornerRadius: 15)
-                .foregroundColor(Color("cardGray"))
-                .opacity(0.24)
-            VStack(alignment: .leading, spacing: .zero) {
-                HStack(alignment: .top) {
-                    Text(title)
-                        .font(.system(size: 22, weight: .bold))
-                        .fixedSize(horizontal: false, vertical: true)
-                        .frame(width: 244, alignment: .leading)
-                        .padding(.bottom, 4)
-                    if done {
-                        Spacer()
-                        Image("done")
-                            .opacity(0.8)
-                    }
-                }
-                
-                Text(description)
-                    .opacity(0.8)
-                    .fixedSize(horizontal: false, vertical: true)
-                    .frame(width: 247, alignment: .leading)
-                    .padding(.bottom, 38)
-                HStack(alignment: .bottom) {
-                    HStack(alignment: .center) {
-                        Image(systemName: "calendar")
-                        Text("22.09")
-                    }
-                    Spacer()
-                    Text(name)
-                        .multilineTextAlignment(.trailing)
-                        .opacity(0.6)
-                        .font(.footnote)
-                        .frame(width: 211, alignment: .trailing)
-                }
-            }
-            .padding([.leading, .trailing], 20)
-            .padding(.bottom, 15)
-            .padding(.top, 24)
-            
-        }
-        .frame(minHeight: 153)
-        .padding([.leading, .trailing], 12)
-        .sheet(isPresented: $details) {
-            CardSheetView(title: title, description: description, task: task, name: name)
-        }
-        .onTapGesture {
-            tapVibration.impactOccurred()
-            details = true
-        }
-        .onAppear {
-            tapVibration.prepare()
-        }
-    }
-//    @GestureState var active = false
-//
-//    func tap() -> some Gesture {
-//        LongPressGesture(minimumDuration: 0.01)
-//            .updating($active) { _, gestureState ,_ in
-//            gestureState = true
-//        }
-//    }
+	
+	var body: some View {
+		ZStack(alignment: .leading) {
+			RoundedRectangle(cornerRadius: 15)
+				.foregroundColor(Color("cardGray"))
+				.opacity(0.24)
+			VStack(alignment: .leading, spacing: .zero) {
+				titleBlock
+				
+				descriptionBlock
+				
+				bottomBlock
+			}
+			.padding([.leading, .trailing], 20)
+			.padding(.bottom, 15)
+			.padding(.top, 24)
+			
+		}
+		.frame(minHeight: 153)
+		.padding([.leading, .trailing], 12)
+		.sheet(isPresented: $details) {
+			CardSheetView(
+				title: title,
+				description: description,
+				task: task,
+				name: name
+			)
+		}
+		.onTapGesture {
+			tapVibration.impactOccurred()
+			details = true
+		}
+		.onAppear {
+			tapVibration.prepare()
+		}
+	}
+	
+	private var titleBlock: some View {
+		HStack(alignment: .top) {
+			Text(title)
+				.font(.system(size: 22, weight: .bold))
+				.fixedSize(horizontal: false, vertical: true)
+				.frame(width: 244, alignment: .leading)
+				.padding(.bottom, 4)
+			if done {
+				Spacer()
+				Image("done")
+					.opacity(0.8)
+			}
+		}
+	}
+	
+	private var bottomBlock: some View {
+		HStack(alignment: .bottom) {
+			HStack(alignment: .center) {
+				Image(systemName: "calendar")
+				Text("22.09")
+			}
+			Spacer()
+			Text(name)
+				.multilineTextAlignment(.trailing)
+				.opacity(0.6)
+				.font(.footnote)
+				.frame(width: 211, alignment: .trailing)
+		}
+	}
+	
+	private var descriptionBlock: some View {
+		Text(description)
+			.opacity(0.8)
+			.fixedSize(horizontal: false, vertical: true)
+			.frame(width: 247, alignment: .leading)
+			.padding(.bottom, 38)
+	}
 }
 
 struct CardSheetView: View {

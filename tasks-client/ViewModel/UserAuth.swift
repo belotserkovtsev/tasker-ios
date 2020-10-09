@@ -43,7 +43,8 @@ class UserAuth: ObservableObject {
             session.dataTask(with: request) { (data, response, error) in
                 if let rawData = data {
                     do {
-                        let resp: LoginData = try JSONDecoder().decode(LoginData.self, from: rawData)
+                        let resp: LoginData = try JSONDecoder()
+							.decode(LoginData.self, from: rawData)
                         if let userData = resp.user {
                             completion(.success)
                             DispatchQueue.main.async {

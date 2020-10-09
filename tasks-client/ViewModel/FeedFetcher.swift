@@ -24,7 +24,7 @@ class FeedFetcher: ObservableObject {
     
     
     
-    func fetchFeed(for id: Int, _ type: FeedType) {
+    func updateFeed(for id: Int, _ type: FeedType) {
         var getFeedUrl: URL
 //        var isDoneUrl: URL
         if type == .personal {

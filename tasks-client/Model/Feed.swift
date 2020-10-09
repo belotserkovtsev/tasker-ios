@@ -17,10 +17,14 @@ struct Feed {
 //    }
     
     mutating func pushTask(array ar: [Task], _ type: FeedType) {
-        type == .personal ? personalTasks.append(contentsOf: ar) : groupTasks.append(contentsOf: ar)
+        type == .personal ?
+			personalTasks.append(contentsOf: ar.difference(from: personalTasks)) :
+			groupTasks.append(contentsOf: ar.difference(from: groupTasks))
+		groupTasks.sort{$0.id > $1.id}
+		personalTasks.sort{$0.id > $1.id}
     }
     
-    struct Task: Identifiable, Codable {
+    struct Task: Identifiable, Codable, Hashable {
         var id: Int
         var title: String
         var description: String
