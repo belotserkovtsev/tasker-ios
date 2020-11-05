@@ -12,15 +12,21 @@ struct User {
     private(set) var username: String?
     private(set) var lastname: String?
     private(set) var firstname: String?
-    
-    
+	
+	private(set) var userType: UType?
     private(set) var loggedIn = false
     
-    mutating func logUserIn(username: String, id: Int, firstname: String, lastname: String) {
+	mutating func logUserIn(username: String, id: Int, type: Int, firstname: String, lastname: String) {
         self.id = id
         self.username = username
         self.loggedIn = true
         self.firstname = firstname
         self.lastname = lastname
+		
+		self.userType = type == 0 ? .subordinate : .head
     }
+}
+
+enum UType {
+	case subordinate, head
 }

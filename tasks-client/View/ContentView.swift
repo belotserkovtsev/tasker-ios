@@ -15,7 +15,7 @@ struct ContentView: View {
         if !user.loggedIn {
             AuthenticateView(username: $username)
         } else {
-            FeedView()
+            AuthenticatedView()
                 .environmentObject(FeedFetcher())
         }
     }

@@ -8,20 +8,16 @@
 import Foundation
 
 struct Feed {
-    var personalTasks = [Task]()
-    var groupTasks = [Task]()
-    
-//    init(id: Int, username: String) {
-//        self.id = id
-//        self.username = username
-//    }
+    private(set) var personalTasks = [Task]()
+    private(set) var groupTasks = [Task]()
     
     mutating func pushTask(array ar: [Task], _ type: FeedType) {
         type == .personal ?
 			personalTasks.append(contentsOf: ar.difference(from: personalTasks)) :
 			groupTasks.append(contentsOf: ar.difference(from: groupTasks))
-		groupTasks.sort{$0.id > $1.id}
-		personalTasks.sort{$0.id > $1.id}
+		type == .personal ?
+			personalTasks.sort{$0.id > $1.id} :
+			groupTasks.sort{$0.id > $1.id}
     }
     
     struct Task: Identifiable, Codable, Hashable {

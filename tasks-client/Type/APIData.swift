@@ -25,6 +25,7 @@ struct LoginData: Codable {
 struct UserData: Codable {
     var id: Int
     var username: String
+	var type: Int
     var firstname: String
     var lastname: String
 }

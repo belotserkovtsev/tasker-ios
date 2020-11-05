@@ -7,13 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8408351F2520AC80003C3580 /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8408351E2520AC80003C3580 /* FeedView.swift */; };
+		8408351F2520AC80003C3580 /* AuthenticatedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8408351E2520AC80003C3580 /* AuthenticatedView.swift */; };
 		84083527252391F3003C3580 /* FeedType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84083526252391F3003C3580 /* FeedType.swift */; };
 		8408352D25239BC9003C3580 /* AuthenticateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8408352C25239BC8003C3580 /* AuthenticateView.swift */; };
 		8408353025239EA5003C3580 /* APIData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8408352F25239EA5003C3580 /* APIData.swift */; };
 		84424EE3251D37DD00C763BF /* Feed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84424EE2251D37DD00C763BF /* Feed.swift */; };
 		84424EE7251D3D1700C763BF /* UserAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84424EE6251D3D1700C763BF /* UserAuth.swift */; };
 		84424EEF251F8BD000C763BF /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84424EEE251F8BD000C763BF /* User.swift */; };
+		846639C1254320160087572C /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846639C0254320160087572C /* FeedView.swift */; };
+		846639C52543211E0087572C /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846639C42543211E0087572C /* ProfileView.swift */; };
+		846639C8254322F50087572C /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846639C7254322F50087572C /* CardView.swift */; };
+		846639CB254324260087572C /* TaskDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846639CA254324260087572C /* TaskDetailsView.swift */; };
 		846A66F2251D300E004464D1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846A66F1251D300E004464D1 /* AppDelegate.swift */; };
 		846A66F4251D300E004464D1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846A66F3251D300E004464D1 /* SceneDelegate.swift */; };
 		846A66F6251D300E004464D1 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846A66F5251D300E004464D1 /* ContentView.swift */; };
@@ -26,13 +30,17 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		8408351E2520AC80003C3580 /* FeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedView.swift; sourceTree = "<group>"; };
+		8408351E2520AC80003C3580 /* AuthenticatedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticatedView.swift; sourceTree = "<group>"; };
 		84083526252391F3003C3580 /* FeedType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedType.swift; sourceTree = "<group>"; };
 		8408352C25239BC8003C3580 /* AuthenticateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticateView.swift; sourceTree = "<group>"; };
 		8408352F25239EA5003C3580 /* APIData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIData.swift; sourceTree = "<group>"; };
 		84424EE2251D37DD00C763BF /* Feed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Feed.swift; sourceTree = "<group>"; };
 		84424EE6251D3D1700C763BF /* UserAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAuth.swift; sourceTree = "<group>"; };
 		84424EEE251F8BD000C763BF /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		846639C0254320160087572C /* FeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedView.swift; sourceTree = "<group>"; };
+		846639C42543211E0087572C /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		846639C7254322F50087572C /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
+		846639CA254324260087572C /* TaskDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailsView.swift; sourceTree = "<group>"; };
 		846A66EE251D300E004464D1 /* tasks-client.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "tasks-client.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		846A66F1251D300E004464D1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		846A66F3251D300E004464D1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -79,8 +87,12 @@
 			isa = PBXGroup;
 			children = (
 				846A66F5251D300E004464D1 /* ContentView.swift */,
-				8408351E2520AC80003C3580 /* FeedView.swift */,
 				8408352C25239BC8003C3580 /* AuthenticateView.swift */,
+				8408351E2520AC80003C3580 /* AuthenticatedView.swift */,
+				846639C7254322F50087572C /* CardView.swift */,
+				846639CA254324260087572C /* TaskDetailsView.swift */,
+				846639C0254320160087572C /* FeedView.swift */,
+				846639C42543211E0087572C /* ProfileView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -215,18 +227,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				846639C1254320160087572C /* FeedView.swift in Sources */,
 				84879E932530813700979DA0 /* Array+Difference.swift in Sources */,
 				8408352D25239BC9003C3580 /* AuthenticateView.swift in Sources */,
 				84424EE3251D37DD00C763BF /* Feed.swift in Sources */,
-				8408351F2520AC80003C3580 /* FeedView.swift in Sources */,
+				8408351F2520AC80003C3580 /* AuthenticatedView.swift in Sources */,
 				847AD181251FB40F009909AE /* FeedFetcher.swift in Sources */,
 				846A66F2251D300E004464D1 /* AppDelegate.swift in Sources */,
+				846639C52543211E0087572C /* ProfileView.swift in Sources */,
 				8408353025239EA5003C3580 /* APIData.swift in Sources */,
 				84424EEF251F8BD000C763BF /* User.swift in Sources */,
+				846639CB254324260087572C /* TaskDetailsView.swift in Sources */,
 				846A66F4251D300E004464D1 /* SceneDelegate.swift in Sources */,
 				84424EE7251D3D1700C763BF /* UserAuth.swift in Sources */,
 				846A66F6251D300E004464D1 /* ContentView.swift in Sources */,
 				847AD17E251FB32A009909AE /* APIError.swift in Sources */,
+				846639C8254322F50087572C /* CardView.swift in Sources */,
 				84083527252391F3003C3580 /* FeedType.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

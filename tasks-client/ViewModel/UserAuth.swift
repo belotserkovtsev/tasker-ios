@@ -30,11 +30,15 @@ class UserAuth: ObservableObject {
     var lastname: String? {
         userData.lastname
     }
+	
+	var userType: UType? {
+		userData.userType
+	}
     
     //MARK: Intents
     
     func login(user username: String, completion: @escaping (Result) -> Void) {
-        if let url = URL(string: "http://192.168.1.222:8888/api/checkUser?username=\(username)") {
+        if let url = URL(string: "http://127.0.0.1:8888/api/checkUser?username=\(username)") {
             var request = URLRequest(url: url)
             request.httpMethod = "GET"
             request.timeoutInterval = 2
@@ -51,6 +55,7 @@ class UserAuth: ObservableObject {
                                 self.userData.logUserIn(
                                     username: userData.username,
                                     id: userData.id,
+									type: userData.type,
                                     firstname: userData.firstname,
                                     lastname: userData.lastname
                                 )
