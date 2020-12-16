@@ -13,7 +13,7 @@ struct User {
     private(set) var lastname: String?
     private(set) var firstname: String?
 	
-	private(set) var userType: UType?
+	private(set) var userType: UserType?
     private(set) var loggedIn = false
     
 	mutating func logUserIn(username: String, id: Int, type: Int, firstname: String, lastname: String) {
@@ -25,8 +25,8 @@ struct User {
 		
 		self.userType = type == 0 ? .subordinate : .head
     }
-}
-
-enum UType {
-	case subordinate, head
+	
+	enum UserType {
+		case subordinate, head
+	}
 }

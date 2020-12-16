@@ -12,10 +12,10 @@ struct FeedData: Codable {
     var tasks: [Feed.Task]?
 }
 
-struct DoneData: Codable {
-    var done: Bool?
-    var error: APIError?
-}
+//struct DoneData: Codable {
+//    var done: Bool?
+//    var error: APIError?
+//}
 
 struct LoginData: Codable {
     var error: APIError?
@@ -28,4 +28,13 @@ struct UserData: Codable {
 	var type: Int
     var firstname: String
     var lastname: String
+}
+
+struct APIError: Codable {
+	var id: Int
+	var message: String
+}
+
+enum Result {
+	case success, failure(APIError)
 }

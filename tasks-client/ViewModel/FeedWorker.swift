@@ -7,7 +7,7 @@
 
 import Foundation
 
-class FeedFetcher: ObservableObject {
+class FeedWorker: ObservableObject {
     @Published private var feedData = Feed()
     
 //    init(model: Feed) {
@@ -58,33 +58,6 @@ class FeedFetcher: ObservableObject {
 			} else {
 				completion(.failure(APIError(id: 5, message: "Server failure")))
 			}
-        }
-        .resume()
-    }
-    
-    func fetchDone(user: Int, task: Int) {
-        var isDoneUrl: URL
-        isDoneUrl = URL(string: "http://192.168.1.222:8888/api/isTaskDone?userId=\(user)&taskId=\(task)")!
-        
-        var request = URLRequest(url: isDoneUrl)
-        request.httpMethod = "GET"
-        request.timeoutInterval = 2
-        
-        let session = URLSession.shared
-        session.dataTask(with: request) { (data, response, error) in
-            if let data = data {
-                do {
-                    let resp: DoneData = try JSONDecoder().decode(DoneData.self, from: data)
-                    if let done = resp.done {
-                        if done {
-                            //TODO: push to model
-                        }
-                    }
-//                    print(test)
-                } catch {
-                    print(error)
-                }
-            }
         }
         .resume()
     }

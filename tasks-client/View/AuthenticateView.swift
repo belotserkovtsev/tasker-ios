@@ -9,7 +9,7 @@ import SwiftUI
 
 struct AuthenticateView: View {
     @Binding var username: String
-    @EnvironmentObject var user: UserAuth
+    @EnvironmentObject var user: UserWorker
     @State private var feedback = UINotificationFeedbackGenerator()
     
     var body: some View {

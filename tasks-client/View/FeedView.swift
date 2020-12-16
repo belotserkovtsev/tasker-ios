@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct FeedView: View {
-	@EnvironmentObject var feed: FeedFetcher
-	@EnvironmentObject var user: UserAuth
+	@EnvironmentObject var feed: FeedWorker
+	@EnvironmentObject var user: UserWorker
 	
 	
-	@State var displayFeed: FeedType = .group
-	@State var displaySettings = false
+	@State private var displayFeed: FeedType = .group
+	@State private var displaySettings = false
 	
     var body: some View {
 		NavigationView {
@@ -144,8 +144,8 @@ struct FeedView: View {
 }
 
 struct GroupTasksView: View {
-	@EnvironmentObject var feed: FeedFetcher
-	@EnvironmentObject var user: UserAuth
+	@EnvironmentObject var feed: FeedWorker
+	@EnvironmentObject var user: UserWorker
 	@State var showCards = false
 	
 	var body: some View {
@@ -156,14 +156,17 @@ struct GroupTasksView: View {
 			} else {
 				GeometryReader { geo in
 					Spacer()
-						.frame(width: geo.size.width, height: geo.size.height, alignment: .center)
+						.frame(
+							width: geo.size.width,
+							height: geo.size.height,
+							alignment: .center
+						)
 				}
-				
 			}
 		}
 		.onAppear {
 			feed.updateFeed(for: user.id!, .group) { result in
-				
+				//some result handler
 			}
 		}
 	}
@@ -182,8 +185,8 @@ struct GroupTasksView: View {
 }
 
 struct PersonalTasksView: View {
-	@EnvironmentObject var feed: FeedFetcher
-	@EnvironmentObject var user: UserAuth
+	@EnvironmentObject var feed: FeedWorker
+	@EnvironmentObject var user: UserWorker
 	
 	@State var showCards = false
 	

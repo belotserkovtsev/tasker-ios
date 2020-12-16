@@ -9,14 +9,14 @@ import SwiftUI
 
 struct ContentView: View {
     @State var username = ""
-    @EnvironmentObject var user: UserAuth
+    @EnvironmentObject var user: UserWorker
     
     var body: some View {
         if !user.loggedIn {
             AuthenticateView(username: $username)
         } else {
             AuthenticatedView()
-                .environmentObject(FeedFetcher())
+                .environmentObject(FeedWorker())
         }
     }
 }

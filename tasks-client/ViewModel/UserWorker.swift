@@ -7,7 +7,7 @@
 
 import Foundation
 
-class UserAuth: ObservableObject {
+class UserWorker: ObservableObject {
     
     @Published var userData = User()
     
@@ -31,7 +31,7 @@ class UserAuth: ObservableObject {
         userData.lastname
     }
 	
-	var userType: UType? {
+	var userType: User.UserType? {
 		userData.userType
 	}
     
