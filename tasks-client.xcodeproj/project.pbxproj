@@ -14,6 +14,7 @@
 		84424EE3251D37DD00C763BF /* Feed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84424EE2251D37DD00C763BF /* Feed.swift */; };
 		84424EE7251D3D1700C763BF /* UserWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84424EE6251D3D1700C763BF /* UserWorker.swift */; };
 		84424EEF251F8BD000C763BF /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84424EEE251F8BD000C763BF /* User.swift */; };
+		845F3C9C258E980000BDEE09 /* SortType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845F3C9B258E980000BDEE09 /* SortType.swift */; };
 		846639C1254320160087572C /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846639C0254320160087572C /* FeedView.swift */; };
 		846639C52543211E0087572C /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846639C42543211E0087572C /* ProfileView.swift */; };
 		846639C8254322F50087572C /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846639C7254322F50087572C /* CardView.swift */; };
@@ -36,6 +37,7 @@
 		84424EE2251D37DD00C763BF /* Feed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Feed.swift; sourceTree = "<group>"; };
 		84424EE6251D3D1700C763BF /* UserWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserWorker.swift; sourceTree = "<group>"; };
 		84424EEE251F8BD000C763BF /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		845F3C9B258E980000BDEE09 /* SortType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortType.swift; sourceTree = "<group>"; };
 		846639C0254320160087572C /* FeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedView.swift; sourceTree = "<group>"; };
 		846639C42543211E0087572C /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		846639C7254322F50087572C /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
@@ -100,6 +102,7 @@
 			children = (
 				8408352F25239EA5003C3580 /* APIData.swift */,
 				84083526252391F3003C3580 /* FeedType.swift */,
+				845F3C9B258E980000BDEE09 /* SortType.swift */,
 			);
 			path = Type;
 			sourceTree = "<group>";
@@ -228,6 +231,7 @@
 				84879E932530813700979DA0 /* Array+Difference.swift in Sources */,
 				8408352D25239BC9003C3580 /* AuthenticateView.swift in Sources */,
 				84424EE3251D37DD00C763BF /* Feed.swift in Sources */,
+				845F3C9C258E980000BDEE09 /* SortType.swift in Sources */,
 				8408351F2520AC80003C3580 /* AuthenticatedView.swift in Sources */,
 				847AD181251FB40F009909AE /* FeedWorker.swift in Sources */,
 				846A66F2251D300E004464D1 /* AppDelegate.swift in Sources */,

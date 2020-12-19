@@ -21,11 +21,11 @@ struct FeedView: View {
 				FeedSelectorView(selection: $displayFeed)
 				VStack(spacing: 16) {
 					if displayFeed == .group {
-						GroupTasksView()
+						GroupTasksView(currentFeed: $displayFeed)
 							.transition(.move(edge: .leading))
 							.animation(Animation.easeOut(duration: 0.25))
 					} else {
-						PersonalTasksView()
+						PersonalTasksView(currentFeed: $displayFeed)
 							.transition(.slide)
 							.animation(Animation.easeOut(duration: 0.25))
 					}
@@ -123,9 +123,13 @@ struct FeedView: View {
 		ActionSheet(
 			title: Text("Отсортировать задачи"),
 			buttons: [
-				.default(Text("По предмету")),
+				.default(Text("По предмету")){
+					feed.sort(by: .group)
+				},
 				.default(Text("По дате")),
-				.default(Text("По появлению")),
+				.default(Text("По появлению")) {
+					feed.sort(by: .appearence)
+				},
 				.cancel(Text("Отмена"))
 			]
 		)
@@ -147,6 +151,8 @@ struct GroupTasksView: View {
 	@EnvironmentObject var feed: FeedWorker
 	@EnvironmentObject var user: UserWorker
 	@State var showCards = false
+	
+	@Binding var currentFeed: FeedType
 	
 	var body: some View {
 		Group {
@@ -173,13 +179,7 @@ struct GroupTasksView: View {
 	
 	private var cards: some View {
 		ForEach(feed.groupTasks) { task in
-			CardVew(
-				title: task.title,
-				description: task.description,
-				name: task.name,
-				task: task.task,
-				done: task.done
-			)
+			CardVew(task: task, currentFeed: $currentFeed)
 		}
 	}
 }
@@ -189,6 +189,7 @@ struct PersonalTasksView: View {
 	@EnvironmentObject var user: UserWorker
 	
 	@State var showCards = false
+	@Binding var currentFeed: FeedType
 	
 	var body: some View {
 		Group {
@@ -212,13 +213,7 @@ struct PersonalTasksView: View {
 	
 	private var cards: some View {
 		ForEach(feed.personalTasks) { task in
-			CardVew(
-				title: task.title,
-				description: task.description,
-				name: task.name,
-				task: task.task,
-				done: task.done
-			)
+			CardVew(task: task, currentFeed: $currentFeed)
 		}
 	}
 }
@@ -256,23 +251,23 @@ struct FeedSelectorView: View {
 	}
 }
 
-struct FeedView_Previews: PreviewProvider {
-	@State static var display: FeedType = .group
-	static var previews: some View {
-		NavigationView {
-			ScrollView {
-				FeedSelectorView(selection: $display)
-				VStack(spacing: 16) {
-					
-					CardVew(title: "Работа над ошибками", description: "Принести до следующей субботы", name: "Методы и срдества программного обеспечения", task: "test", done: false)
-					
-					CardVew(title: "Долг матан", description: "Сдатьв четверг в ауд. 118", name: "Математический анализ", task: "test", done: false)
-				}
-				
-			}
-			.padding(.top, 1)
-			.navigationBarTitle("Мои задания")
-		}
-		.preferredColorScheme(.dark)
-	}
-}
+//struct FeedView_Previews: PreviewProvider {
+//	@State static var display: FeedType = .group
+//	static var previews: some View {
+//		NavigationView {
+//			ScrollView {
+//				FeedSelectorView(selection: $display)
+//				VStack(spacing: 16) {
+//					
+//					CardVew(title: "Работа над ошибками", description: "Принести до следующей субботы", name: "Методы и срдества программного обеспечения", task: "test", done: false)
+//
+//					CardVew(title: "Долг матан", description: "Сдатьв четверг в ауд. 118", name: "Математический анализ", task: "test", done: false)
+//				}
+//
+//			}
+//			.padding(.top, 1)
+//			.navigationBarTitle("Мои задания")
+//		}
+//		.preferredColorScheme(.dark)
+//	}
+//}

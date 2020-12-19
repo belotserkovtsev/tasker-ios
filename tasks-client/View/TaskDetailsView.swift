@@ -8,10 +8,14 @@
 import SwiftUI
 
 struct TaskDetailsView: View {
-	var title: String
-	var description: String
-	var task: String
-	var name: String
+	var task: Feed.Task
+	
+	@EnvironmentObject var feed: FeedWorker
+	@EnvironmentObject var user: UserWorker
+	
+	@Binding var currentFeed: FeedType
+	
+//	@State var done: Bool
 	
 	//    @Binding var active: Bool
 	
@@ -21,7 +25,7 @@ struct TaskDetailsView: View {
 				ScrollView {
 					VStack(alignment: .leading, spacing: .zero) {
 						HStack(alignment: .top) {
-							Text(title)
+							Text(task.title)
 								.font(.system(size: 22, weight: .bold))
 								.fixedSize(horizontal: false, vertical: true)
 								.frame(width: 235, alignment: .leading)
@@ -32,11 +36,11 @@ struct TaskDetailsView: View {
 							ZStack {
 								RoundedRectangle(cornerRadius: 12)
 									.foregroundColor(Color("typePink"))
-								Text("Групповое")
+								Text(currentFeed == .personal ? "Личное" : "Групповое")
 							}
 							.frame(maxWidth: 105, maxHeight: 30)
 						}
-						Text(description)
+						Text(task.description)
 							.opacity(0.8)
 							.fixedSize(horizontal: false, vertical: true)
 							.frame(width: 235, alignment: .leading)
@@ -48,7 +52,7 @@ struct TaskDetailsView: View {
 								Text("22.09")
 							}
 							Spacer()
-							Text(name)
+							Text(task.name)
 								.multilineTextAlignment(.trailing)
 								.opacity(0.6)
 								.font(.footnote)
@@ -71,7 +75,7 @@ struct TaskDetailsView: View {
 						.padding(.bottom, 10)
 						
 						GeometryReader { geo in
-							Text(task)
+							Text(task.task)
 								.font(.body)
 								.opacity(0.8)
 								.fixedSize(horizontal: false, vertical: true)
@@ -82,13 +86,30 @@ struct TaskDetailsView: View {
 					}.padding(.top, 20)
 					
 				}
-				ZStack {
-					RoundedRectangle(cornerRadius: 14)
-						.foregroundColor(Color("loginButtonPink"))
-						.frame(height: 56)
-					Text("Я сделал это!")
-						.font(.system(size: 17, weight: .semibold))
+				//MARK: Done button
+				if !task.done {
+					Button(action: {
+						feed.setDone(for: user.id!, task: task.id, currentFeed) { result in
+							switch result {
+							case .failure(let err):
+								print(err)
+							case .success: break
+								//do something
+							}
+						}
+					}, label: {
+						ZStack {
+							RoundedRectangle(cornerRadius: 14)
+								.foregroundColor(Color("loginButtonPink"))
+								.frame(height: 56)
+							Text("Я сделал это!")
+								.foregroundColor(.white)
+								.font(.system(size: 17, weight: .semibold))
+						}
+					})
+					.transition(.scale)
 				}
+				
 			}
 			.padding([.leading, .trailing], 12)
 			.navigationBarTitle("Задание", displayMode: .inline)
@@ -105,13 +126,13 @@ struct TaskDetailsView: View {
 	}
 }
 
-struct TaskDetailsView_Previews: PreviewProvider {
-    static var previews: some View {
-		TaskDetailsView(
-			title: "Работа над ошибками",
-			description: "Принести до следующей субботы",
-			task: "test",
-			name: "Методы и срдества программного обеспечения")
-			.preferredColorScheme(.dark)
-    }
-}
+//struct TaskDetailsView_Previews: PreviewProvider {
+//    static var previews: some View {
+//		TaskDetailsView(
+//			title: "Работа над ошибками",
+//			description: "Принести до следующей субботы",
+//			task: "test",
+//			name: "Методы и срдества программного обеспечения")
+//			.preferredColorScheme(.dark)
+//    }
+//}

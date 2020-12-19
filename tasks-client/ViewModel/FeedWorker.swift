@@ -22,6 +22,11 @@ class FeedWorker: ObservableObject {
         feedData.groupTasks
     }
     
+	//MARK: Intents
+	
+	func sort(by sortType: SortType) {
+		feedData.sort(by: sortType)
+	}
     
     
 	func updateFeed(for id: Int, _ type: FeedType, completion: @escaping (Result) -> Void) {
@@ -61,4 +66,39 @@ class FeedWorker: ObservableObject {
         }
         .resume()
     }
+	
+	func setDone(for id: Int, task taskId: Int, _ type: FeedType, completion: @escaping (Result) -> Void) {
+		let getFeedUrl = URL(string: "http://127.0.0.1:8888/api/setTaskDone?userId=\(id)&taskId=\(taskId)")!
+		
+		var feedRequest = URLRequest(url: getFeedUrl)
+		feedRequest.httpMethod = "POST"
+		feedRequest.timeoutInterval = 5
+		
+		let session = URLSession.shared
+		session.dataTask(with: feedRequest) { (data, response, error) in
+			if let rawData = data {
+				do {
+					if let httpResponse = response as? HTTPURLResponse {
+						if httpResponse.statusCode == 200 {
+							DispatchQueue.main.async {
+								self.feedData.setTaskDone(for: taskId, type)
+								completion(.success)
+							}
+						} else if httpResponse.statusCode == 400 {
+							let resp: SetDoneData = try JSONDecoder().decode(SetDoneData.self, from: rawData)
+							
+							completion(.failure(resp.error!))
+						}
+					} else {
+						completion(.failure(APIError(id: 7, message: "Couldn't reach server")))
+					}
+				} catch {
+					completion(.failure(APIError(id: 6, message: "Couldn't decode")))
+				}
+			} else {
+				completion(.failure(APIError(id: 5, message: "Server failure")))
+			}
+		}
+		.resume()
+	}
 }

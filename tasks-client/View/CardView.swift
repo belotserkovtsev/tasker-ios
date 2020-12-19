@@ -8,14 +8,12 @@
 import SwiftUI
 
 struct CardVew: View {
-	var title: String
-	var description: String
-	var name: String
-	var task: String
-	var done: Bool
+	var task: Feed.Task
 	
 	let tapVibration = UIImpactFeedbackGenerator(style: .light)
+	
 	@State var details = false
+	@Binding var currentFeed: FeedType
 	
 	var body: some View {
 		ZStack(alignment: .leading) {
@@ -36,12 +34,7 @@ struct CardVew: View {
 		}
 		.padding([.leading, .trailing], 12)
 		.sheet(isPresented: $details) {
-			TaskDetailsView(
-				title: title,
-				description: description,
-				task: task,
-				name: name
-			)
+			TaskDetailsView(task: task, currentFeed: $currentFeed)
 		}
 		.onTapGesture {
 			tapVibration.impactOccurred()
@@ -54,12 +47,12 @@ struct CardVew: View {
 	
 	private var titleBlock: some View {
 		HStack(alignment: .top) {
-			Text(title)
+			Text(task.title)
 				.font(.system(size: 22, weight: .bold))
 				.fixedSize(horizontal: false, vertical: true)
 				.frame(width: 244, alignment: .leading)
 				.padding(.bottom, 4)
-			if done {
+			if task.done {
 				Spacer()
 				Image("done")
 					.opacity(0.8)
@@ -74,7 +67,7 @@ struct CardVew: View {
 				Text("22.09")
 			}
 			Spacer()
-			Text(name)
+			Text(task.name)
 				.multilineTextAlignment(.trailing)
 				.opacity(0.6)
 				.font(.footnote)
@@ -83,7 +76,7 @@ struct CardVew: View {
 	}
 	
 	private var descriptionBlock: some View {
-		Text(description)
+		Text(task.description)
 			.opacity(0.8)
 			.fixedSize(horizontal: false, vertical: true)
 			.frame(width: 247, alignment: .leading)
@@ -91,15 +84,15 @@ struct CardVew: View {
 	}
 }
 
-struct CardView_Previews: PreviewProvider {
-    static var previews: some View {
-		ScrollView {
-			CardVew(
-				title: "Работа над ошибками",
-				description: "Принести до следующей субботы",
-				name: "Методы и срдества программного обеспечения",
-				task: "test",
-				done: false)
-		}
-    }
-}
+//struct CardView_Previews: PreviewProvider {
+//    static var previews: some View {
+//		ScrollView {
+//			CardVew(
+//				title: "Работа над ошибками",
+//				description: "Принести до следующей субботы",
+//				name: "Методы и срдества программного обеспечения",
+//				task: "test",
+//				done: false)
+//		}
+//    }
+//}

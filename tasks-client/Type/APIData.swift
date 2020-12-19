@@ -12,10 +12,9 @@ struct FeedData: Codable {
     var tasks: [Feed.Task]?
 }
 
-//struct DoneData: Codable {
-//    var done: Bool?
-//    var error: APIError?
-//}
+struct SetDoneData: Codable {
+    var error: APIError?
+}
 
 struct LoginData: Codable {
     var error: APIError?
