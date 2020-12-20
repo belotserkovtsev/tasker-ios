@@ -14,9 +14,16 @@ struct Feed {
 	private var currentSorting: SortType = .appearence
     
     mutating func pushTask(array ar: [Task], _ type: FeedType) {
-        type == .personal ?
-			personalTasks.append(contentsOf: ar.difference(from: personalTasks)) :
-			groupTasks.append(contentsOf: ar.difference(from: groupTasks))
+//        type == .personal ?
+//			personalTasks.append(contentsOf: ar.difference(from: personalTasks)) :
+//			groupTasks.append(contentsOf: ar.difference(from: groupTasks))
+		
+		switch type {
+		case .group:
+			groupTasks = ar
+		case .personal:
+			personalTasks = ar
+		}
 		
 		sort(by: currentSorting)
     }
@@ -52,6 +59,6 @@ struct Feed {
         var description: String
         var task: String
         var name: String
-        var done: Bool
+        var done: Bool?
     }
 }

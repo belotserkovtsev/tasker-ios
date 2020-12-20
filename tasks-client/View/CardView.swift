@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct CardVew: View {
+	@EnvironmentObject var user: UserWorker
 	var task: Feed.Task
-	
 	let tapVibration = UIImpactFeedbackGenerator(style: .light)
 	
 	@State var details = false
@@ -52,7 +52,7 @@ struct CardVew: View {
 				.fixedSize(horizontal: false, vertical: true)
 				.frame(width: 244, alignment: .leading)
 				.padding(.bottom, 4)
-			if task.done {
+			if task.done != nil && task.done! {
 				Spacer()
 				Image("done")
 					.opacity(0.8)
@@ -71,6 +71,7 @@ struct CardVew: View {
 				.multilineTextAlignment(.trailing)
 				.opacity(0.6)
 				.font(.footnote)
+				.fixedSize(horizontal: false, vertical: true)
 				.frame(width: 211, alignment: .trailing)
 		}
 	}

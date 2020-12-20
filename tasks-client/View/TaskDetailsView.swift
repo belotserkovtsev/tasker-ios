@@ -87,7 +87,7 @@ struct TaskDetailsView: View {
 					
 				}
 				//MARK: Done button
-				if !task.done {
+				if task.done != nil && !task.done! {
 					Button(action: {
 						feed.setDone(for: user.id!, task: task.id, currentFeed) { result in
 							switch result {

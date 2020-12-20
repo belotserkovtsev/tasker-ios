@@ -14,6 +14,7 @@ struct FeedView: View {
 	
 	@State private var displayFeed: FeedType = .group
 	@State private var displaySettings = false
+	@State private var displayCreateTask = false
 	
     var body: some View {
 		NavigationView {
@@ -47,12 +48,16 @@ struct FeedView: View {
 	
 	private var addNewTaskItem: some View {
 		Button(action: {
-			
+			displayCreateTask = true
 		}, label: {
 			Image(systemName: "plus")
 				.foregroundColor(.purple)
 				.frame(width: 32, height: 32)
 		})
+		.sheet(isPresented: $displayCreateTask) {
+			//				TaskDetailsView(task: task, currentFeed: $currentFeed)
+			CreateTaskView()
+		}
 	}
 	
 	@State private var displayProgress: (group: Bool, personal: Bool) = (false, false)
@@ -80,7 +85,7 @@ struct FeedView: View {
 			Button(action: {
 				displayProgress = (true, true)
 				
-				feed.updateFeed(for: user.id!, .group) { result in
+				feed.updateFeed(for: user.id!, .group, user.userType!) { result in
 					switch result {
 					case .success:
 						displayProgress.group = false
@@ -94,7 +99,7 @@ struct FeedView: View {
 					
 				}
 				
-				feed.updateFeed(for: user.id!, .personal) { result in
+				feed.updateFeed(for: user.id!, .personal, user.userType!) { result in
 					switch result {
 					case .success:
 						displayProgress.personal = false
@@ -171,7 +176,7 @@ struct GroupTasksView: View {
 			}
 		}
 		.onAppear {
-			feed.updateFeed(for: user.id!, .group) { result in
+			feed.updateFeed(for: user.id!, .group, user.userType!) { result in
 				//some result handler
 			}
 		}
@@ -205,7 +210,7 @@ struct PersonalTasksView: View {
 			
 		}
 		.onAppear {
-			feed.updateFeed(for: user.id!, .personal) {result in
+			feed.updateFeed(for: user.id!, .personal, user.userType!) {result in
 				
 			}
 		}
